@@ -12,6 +12,8 @@ public class PlayerCam : MonoBehaviour
     
     float yRotation;
     float xRotation;
+
+    private bool canMoveCamera = true;
     
     // Start is called before the first frame update
     void Start()
@@ -23,6 +25,8 @@ public class PlayerCam : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (canMoveCamera)
+        {
        float mouseX = Input.GetAxisRaw("Mouse X")*Time.deltaTime*sensX;
        float mouseY = Input.GetAxisRaw("Mouse Y")*Time.deltaTime*sensY;
     
@@ -33,5 +37,12 @@ public class PlayerCam : MonoBehaviour
 
         transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
         orientation.rotation = Quaternion.Euler(0, yRotation, 0);
+        }
+    }
+
+        // Method to enable/disable camera movement
+    public void EnableCamera(bool enable)
+    {
+        canMoveCamera = enable;
     }
 }
