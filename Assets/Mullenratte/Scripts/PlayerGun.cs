@@ -7,7 +7,7 @@ public class PlayerGun : MonoBehaviour
     [SerializeField] float fireCooldown;
     float shootTimer;
     [SerializeField] float gunRange;
-    [SerializeField] float gunDamage;
+    [SerializeField] int gunDamage;
 
     [SerializeField] Transform playerCamera;
 
@@ -25,7 +25,8 @@ public class PlayerGun : MonoBehaviour
             shootTimer = fireCooldown;
             if (Physics.Raycast(playerCamera.position, playerCamera.forward, out RaycastHit hit, gunRange)) {
                 if(hit.collider.gameObject.TryGetComponent(out IShootable shotObject)) {
-                    shotObject.TakeDamage(gunDamage);
+                    Debug.Log("dealt " + gunDamage + " damage to " + shotObject);
+                    shotObject.Damage(gunDamage);
                 }
             }
 

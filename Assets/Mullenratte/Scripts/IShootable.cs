@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IShootable
 {
-    public void TakeDamage(float damage);
+    public void Damage(int damageAmount);
 }
