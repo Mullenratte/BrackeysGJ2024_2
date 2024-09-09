@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 255f90a9c4c3e51468027293ecc0b0af, type: 3}
+  m_Name: Database
+  m_EditorClassIdentifier: 
+  objectsData:
+  - <Name>k__BackingField: Engine
+    <ID>k__BackingField: 0
+    <Size>k__BackingField: {x: 3, y: 3}
+    <Prefab>k__BackingField: {fileID: 1805089038181293205, guid: 0c04870279b5c1f448ca5b3887fee992,
+      type: 3}
+  - <Name>k__BackingField: Shield
+    <ID>k__BackingField: 1
+    <Size>k__BackingField: {x: 1, y: 1}
+    <Prefab>k__BackingField: {fileID: 6342909630588283234, guid: 0a98b42501c48ca43af262c884fdb8d7,
+      type: 3}
+  - <Name>k__BackingField: BuildingIII
+    <ID>k__BackingField: 2
+    <Size>k__BackingField: {x: 1, y: 1}
+    <Prefab>k__BackingField: {fileID: 6342909630588283234, guid: 0a98b42501c48ca43af262c884fdb8d7,
+      type: 3}
+  - <Name>k__BackingField: BuildingIV
+    <ID>k__BackingField: 3
+    <Size>k__BackingField: {x: 3, y: 3}
+    <Prefab>k__BackingField: {fileID: 1805089038181293205, guid: 0c04870279b5c1f448ca5b3887fee992,
+      type: 3}

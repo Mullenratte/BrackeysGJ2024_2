@@ -285,7 +285,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 99820823}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1775660558}
+        m_TargetAssemblyTypeName: PlacementSystem, Assembly-CSharp
+        m_MethodName: startPlacement
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &99820823
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -406,7 +418,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 108428837}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1775660558}
+        m_TargetAssemblyTypeName: PlacementSystem, Assembly-CSharp
+        m_MethodName: startPlacement
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &108428837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -527,7 +551,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 254152216}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1775660558}
+        m_TargetAssemblyTypeName: PlacementSystem, Assembly-CSharp
+        m_MethodName: startPlacement
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &254152216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -630,7 +666,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &517630357
 Transform:
   m_ObjectHideFlags: 0
@@ -1128,8 +1164,8 @@ GameObject:
   - component: {fileID: 1060684937}
   - component: {fileID: 1060684936}
   - component: {fileID: 1060684935}
-  m_Layer: 0
-  m_Name: Plane
+  m_Layer: 3
+  m_Name: GridVisualization
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1449,7 +1485,7 @@ MonoBehaviour:
   sceneCamera: {fileID: 1436870491}
   placementLayerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 8
 --- !u!1 &1319206698
 GameObject:
   m_ObjectHideFlags: 0
@@ -1805,6 +1841,8 @@ MonoBehaviour:
   cellIndicator: {fileID: 535138948}
   inputManager: {fileID: 1159361293}
   grid: {fileID: 1319206700}
+  database: {fileID: 11400000, guid: 79107cf880b70694c893939202046ee4, type: 2}
+  gridVisualization: {fileID: 1060684933}
 --- !u!1 &1848508378
 GameObject:
   m_ObjectHideFlags: 0
@@ -2070,7 +2108,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2093601949}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1775660558}
+        m_TargetAssemblyTypeName: PlacementSystem, Assembly-CSharp
+        m_MethodName: startPlacement
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2093601949
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ public class BuildMenu : MonoBehaviour
 {
     private bool buildPanelisActvie = false;
     [SerializeField] GameObject BuildPannel;
+    
     [SerializeField] PlayerCam playerCam; 
 
 
