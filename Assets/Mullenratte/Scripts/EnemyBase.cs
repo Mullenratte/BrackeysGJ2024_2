@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyBase : MonoBehaviour
 {
     [SerializeField] HealthSystem healthSystem;
+    [SerializeField] int damage;
 
     private void Start() {
 
@@ -15,5 +16,15 @@ public class EnemyBase : MonoBehaviour
 
     private void HealthSystem_OnDeath(object sender, System.EventArgs e) {
         Destroy(gameObject);    // subject to change
+    }
+
+    private void OnCollisionEnter(Collision collision) {
+        Debug.Log(collision.gameObject);
+
+
+        if (collision.collider.TryGetComponent<PlayerMovement>(out _) && collision.collider.TryGetComponent(out HealthSystem playerHealthSystem)) {
+            Debug.Log("hit palyer");
+            playerHealthSystem.Damage(damage);
+        }
     }
 }
