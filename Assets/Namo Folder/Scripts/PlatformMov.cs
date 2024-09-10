@@ -17,7 +17,7 @@ public class PlatformMov : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.isKinematic = true; // Make sure the platform is kinematic
+
     }
 
     void FixedUpdate()
@@ -25,14 +25,20 @@ public class PlatformMov : MonoBehaviour
         // Move the platform along the x-axis
         Vector3 movement = new Vector3(speed * Time.fixedDeltaTime, 0, 0);
         rb.MovePosition(rb.position + movement);
+
     }
 
+
+    // !! NOTE : make sure the player AND Items does not have "Rigidbody" component, In case "Rigidbody" is required there is another script below
+
+
+    // Platform is a PARENT for : player, item
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Item"))
         {
-            // Ensure the player is parented to the platform
-            collision.transform.parent = transform;
+
+            collision.gameObject.transform.parent = transform;
             print("Enter - Player tagged object is now a child of: " + transform.name);
         }
     }
@@ -41,11 +47,13 @@ public class PlatformMov : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Item"))
         {
-            // Unparent the player when they exit the platform
-            collision.transform.parent = null;
-            print("Exit - Player tagged object has been unparented.");
+
+            collision.gameObject.transform.parent = null;
+            print("Enter - Player tagged object is now a child of: " + transform.name);
         }
     }
+
+
 
 }
 
@@ -139,5 +147,52 @@ public float speed = 5f; // Speed of the platform along the x-axis
             print("Exit - Player tagged object has been unparented.");
         }
     }
-*/
+
+ 
+ 
+ --------------- Collisions
+ 
+ public float speed = 5f; // Speed of the platform along the x-axis
+    private Rigidbody rb;
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+        rb.isKinematic = true; // Make sure the platform is kinematic
+    }
+
+    void FixedUpdate()
+    {
+        // Move the platform along the x-axis
+        Vector3 movement = new Vector3(speed * Time.fixedDeltaTime, 0, 0);
+        rb.MovePosition(rb.position + movement);
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Item"))
+        {
+            // Ensure the player is parented to the platform
+            collision.transform.parent = transform;
+            print("HI" + transform.name);
+        }
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Item"))
+        {
+            // Unparent the player when they exit the platform
+            collision.transform.parent = null;
+            print("Exit - Player tagged object has been unparented.");
+        }
+    }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ */
 
