@@ -128,7 +128,17 @@ public class PlayerMovement : MonoBehaviour {
         Vector3 movementForce = moveDirection.normalized * movementSpeed * movementSpeedMultiplier * regulationFactor;
         movementForce += Vector3.up * verticalMovementSpeed * regulationFactorVert;
 
-        rb.AddForce(movementForce, ForceMode.Force);
+        Debug.Log(Vector3.Distance(transform.position, TetherSystem.instance.tetherPoint.position));
+
+        if (Vector3.Distance(transform.position, TetherSystem.instance.tetherPoint.position) < TetherSystem.instance.maxRange) {
+            rb.AddForce(movementForce, ForceMode.Force);
+        } else {
+            float platformSpeed = 5f; // placeholder, will be moved to platform logic
+            movementForce = (TetherSystem.instance.tetherPoint.position - transform.position).normalized * platformSpeed;
+            rb.AddForce(movementForce, ForceMode.Force);
+            Debug.Log("you are tethered to the platform! Applying force: " + movementForce);
+        }
+
     }
 
     private bool IsGrounded() {
