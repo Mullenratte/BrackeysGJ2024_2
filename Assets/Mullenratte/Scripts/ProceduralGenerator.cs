@@ -19,6 +19,7 @@ public class ProceduralGenerator : MonoBehaviour
     [SerializeField] int maxEnvironmentObjects;
     [SerializeField] float minDistanceToObjects;
     private List<GameObject> environmentObjPool;
+    [SerializeField, Range(1f, 5f)] float maxRandomScaleFactor;
     [Header("Enemies")]
     //[SerializeField] GameObject[] enemyPrefabs;
     [SerializeField] Transform enemySpawnerLeft;
@@ -74,8 +75,17 @@ public class ProceduralGenerator : MonoBehaviour
         /* get a random position on a sphere around the platform center
          * within a random radius between the min and max allowed spawn radius.
          * Then, it is also offset on the X-axis by the maximum spawn radius (because there's no real need to spawn objects behind the platform)
+         * and on the Z-axis by 10f (currently a magic number; just a good enough distance from the platform to either side),
+         * so there won't be any objects spawning in the platforms path
         */
-        Vector3 spawnPosRnd = UnityEngine.Random.onUnitSphere * distanceOffsetRnd + Platform.instance.procGenTriggerPoint.position + Vector3.right * spawnPosXOffset;   
+        float spawnPosZOffset = 10f;
+        Vector3 unitSpherePosRnd = UnityEngine.Random.onUnitSphere * distanceOffsetRnd;
+        if (unitSpherePosRnd.z < 0) {
+            spawnPosZOffset = -MathF.Abs(spawnPosZOffset);
+        } else {
+            spawnPosZOffset = MathF.Abs(spawnPosZOffset);
+        }
+        Vector3 spawnPosRnd = unitSpherePosRnd + Platform.instance.procGenTriggerPoint.position + Vector3.right * spawnPosXOffset + Vector3.forward * spawnPosZOffset;   
 
         if (Physics.SphereCast(spawnPosRnd, minDistanceToObjects, Vector3.zero, out RaycastHit hit)) {
             Debug.Log("there's already an object too close to " + spawnPosRnd);
@@ -86,7 +96,10 @@ public class ProceduralGenerator : MonoBehaviour
         float yRotRnd = UnityEngine.Random.Range(0, 360);
         float zRotRnd = UnityEngine.Random.Range(0, 360);
 
-        Instantiate(environmentPrefabs[prefabRnd], spawnPosRnd, Quaternion.Euler(xRotRnd, yRotRnd, zRotRnd));
+        GameObject prefab = Instantiate(environmentPrefabs[prefabRnd], spawnPosRnd, Quaternion.Euler(xRotRnd, yRotRnd, zRotRnd));
+
+        float scaleRnd = UnityEngine.Random.Range(1f, maxRandomScaleFactor);
+        prefab.transform.localScale *= scaleRnd;
 
 
     }

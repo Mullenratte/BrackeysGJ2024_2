@@ -771,6 +771,7 @@ MonoBehaviour:
   minEnvironmentObjects: 8
   maxEnvironmentObjects: 20
   minDistanceToObjects: 7
+  maxRandomScaleFactor: 5
   enemySpawnerLeft: {fileID: 1251093163}
   enemySpawnerRight: {fileID: 1589878733}
   resourcePrefabs: []
@@ -1501,7 +1502,7 @@ PrefabInstance:
     - target: {fileID: 7121417756309093109, guid: 5adee03394d0e8e44b82e56000d8280b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7121417756309093109, guid: 5adee03394d0e8e44b82e56000d8280b,
         type: 3}
