@@ -1479,7 +1479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98acf164375487f439ee13bc67ca2a03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 6
+  speed: 5
 --- !u!54 &2085334567
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1875,6 +1875,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1123457905776435670, guid: 5adee03394d0e8e44b82e56000d8280b,
+        type: 3}
+      propertyPath: platformLayer.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
     - target: {fileID: 4550582719324885960, guid: 5adee03394d0e8e44b82e56000d8280b,
         type: 3}
       propertyPath: m_Name
