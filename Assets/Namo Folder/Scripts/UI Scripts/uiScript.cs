@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Audio;
 public class uiScript : MonoBehaviour
 {
 
@@ -17,18 +18,36 @@ public class uiScript : MonoBehaviour
     {
         resolutions = Screen.resolutions;
 
-        resolutionDropdown.ClearOptions();
+        resolutionDropdown.ClearOptions(); 
 
         List<string> options = new List<string>();
 
+        int currentResolutionIndex = 0;
         for (int i = 0; i < resolutions.Length; i++)
         {
             string option = resolutions[i].width  + " x "  + resolutions[i].height;
             options.Add(option);
 
+            if (resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height)
+            {
+                currentResolutionIndex = i;
+            }
+
         }
 
         resolutionDropdown.AddOptions(options);
+        resolutionDropdown.value = currentResolutionIndex;
+        resolutionDropdown.RefreshShownValue();
+        
+    }
+
+    // ------------- Setting Resolution ------------------------------
+
+
+    public void SetResolution (int resolutionIndex)
+    {
+        Resolution resolution = resolutions[resolutionIndex];
+        Screen.SetResolution(resolution.width, resolution.height,Screen.fullScreen);
     }
 
     // ------------- Loading Scenes ------------------------------
@@ -65,6 +84,28 @@ public class uiScript : MonoBehaviour
     {
         QualitySettings.SetQualityLevel(qualityIndex);
     }
+
+
+    // ------------- Volume Slider ------------------------------
     
-   
+    public AudioMixer audioMixer;
+
+    public void SetVolume(float volume)
+    {
+        audioMixer.SetFloat("Volume",volume);
+    }
+    
+    // ------------- SFX Slider ------------------------------
+    public void SetSfx(float sfxVolume)
+    {
+        audioMixer.SetFloat("SfxVolume", sfxVolume);
+    }
+
+    // ------------- Test (can be deleted) ------------------------------
+
+    public void PlaySound(string soundName)
+    {
+        FindObjectOfType<SoundManager>().PlaySound(soundName);
+    }
+
 }
