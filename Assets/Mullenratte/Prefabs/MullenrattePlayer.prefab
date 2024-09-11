@@ -72,10 +72,13 @@ GameObject:
   m_Component:
   - component: {fileID: 7121417756309093109}
   - component: {fileID: 7317792518947385516}
+  - component: {fileID: 4388329203220541795}
   - component: {fileID: 1123457905776435670}
+  - component: {fileID: 8842440277253533633}
+  - component: {fileID: 3924225146471362494}
   m_Layer: 0
   m_Name: MullenrattePlayer
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -126,6 +129,29 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!136 &4388329203220541795
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4550582719324885960}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1123457905776435670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,8 +168,41 @@ MonoBehaviour:
   groundCheck: {fileID: 5704072344274732610}
   movementSpeed: 60
   maxVelocityHorizontal: 6
-  jumpStrength: 4
-  airMovementSpeedMultiplier: 0.561
+  jumpStrength: 3
+  rbDragGrounded: 2
+  airMovementSpeedMultiplier: 0.2
+  rbDragAirborne: 2
+  verticalMovementSpeed: 20
+  maxVelocityVertical: 3
+--- !u!114 &8842440277253533633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4550582719324885960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd00e81cfd81fcf4fa79c17ad305ff6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fireCooldown: 0.66
+  gunRange: 50
+  gunDamage: 15
+  playerCamera: {fileID: 0}
+--- !u!114 &3924225146471362494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4550582719324885960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bea3d08175ab55b4789e76e6b079591e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
 --- !u!1 &4962751665158401983
 GameObject:
   m_ObjectHideFlags: 0
@@ -155,7 +214,6 @@ GameObject:
   - component: {fileID: 5441725148329020039}
   - component: {fileID: 7095087843629783147}
   - component: {fileID: 429834317967528963}
-  - component: {fileID: 4476086690212784905}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -228,29 +286,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &4476086690212784905
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4962751665158401983}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6358521732095158532
 GameObject:
   m_ObjectHideFlags: 0

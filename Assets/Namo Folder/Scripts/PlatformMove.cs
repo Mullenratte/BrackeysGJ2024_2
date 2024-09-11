@@ -4,7 +4,7 @@ using System.Diagnostics;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlatformMov : MonoBehaviour
+public class PlatformMove : MonoBehaviour
 {
     /* 
       Take a look at the cube named "Cube0" on the Hierarchy, its sliding on the platform and that's obvious, then take a look at it when we change 
@@ -49,7 +49,7 @@ public class PlatformMov : MonoBehaviour
         {
 
             collision.gameObject.transform.parent = null;
-            print("Enter - Player tagged object is now a child of: " + transform.name);
+            print("Exit - Player tagged object is not a child of: " + transform.name + " anymore.");
         }
     }
 

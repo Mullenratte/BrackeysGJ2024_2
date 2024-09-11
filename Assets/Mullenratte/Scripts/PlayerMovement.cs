@@ -6,6 +6,8 @@ using UnityEngine.UIElements;
 
 public class PlayerMovement : MonoBehaviour {
 
+    public static PlayerMovement instance;
+
     public Transform orientation;
     public Transform groundCheck;
 
@@ -42,6 +44,14 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     private MovementType movementType;
+
+    private void Awake() {
+        if (instance == null) {
+            instance = this;
+        } else {
+            Destroy(gameObject);
+        }
+    }
 
     // Start is called before the first frame update
     void Start() {
@@ -128,7 +138,7 @@ public class PlayerMovement : MonoBehaviour {
         Vector3 movementForce = moveDirection.normalized * movementSpeed * movementSpeedMultiplier * regulationFactor;
         movementForce += Vector3.up * verticalMovementSpeed * regulationFactorVert;
 
-        Debug.Log(Vector3.Distance(transform.position, TetherSystem.instance.tetherPoint.position));
+        //Debug.Log(Vector3.Distance(transform.position, TetherSystem.instance.tetherPoint.position));
 
         if (Vector3.Distance(transform.position, TetherSystem.instance.tetherPoint.position) < TetherSystem.instance.maxRange) {
             rb.AddForce(movementForce, ForceMode.Force);
