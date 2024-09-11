@@ -12,17 +12,21 @@ public class PlayerMovement : MonoBehaviour {
     public Transform groundCheck;
 
     float movementSpeedMultiplier = 1f;
+
+    [SerializeField] private LayerMask platformLayer;
+
     [Header("Ground Movement")]
     public float movementSpeed;
-    [SerializeField] float maxVelocityHorizontal;
     [SerializeField] float jumpStrength;
     [SerializeField] float rbDragGrounded;
     float gravity = 9.81f;
+    float onPlatformMaxVelocityX, onPlatformMaxVelocityZ;
 
     [Header("Air Movement")]
     [SerializeField, Range(0.1f, 1f)] float airMovementSpeedMultiplier;
     [SerializeField, Range(1f, 2f)] float rbDragAirborne;
     [SerializeField] float verticalMovementSpeed;
+    [SerializeField] float maxVelocityHorizontal;
     [SerializeField] float maxVelocityVertical;
 
 
@@ -57,6 +61,9 @@ public class PlayerMovement : MonoBehaviour {
     void Start() {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+
+        onPlatformMaxVelocityZ = maxVelocityHorizontal;
+        onPlatformMaxVelocityX = maxVelocityHorizontal + Platform.instance.Velocity.x;
     }
 
     // Update is called once per frame
@@ -72,8 +79,11 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     private void FixedUpdate() {
-        if (Physics.Raycast(groundCheck.position, Vector3.down, 5f)) {
+        if (Physics.Raycast(groundCheck.position, Vector3.down, 5f, platformLayer)) {  
+            onPlatformMaxVelocityX = maxVelocityHorizontal + Platform.instance.Velocity.x;                // increase max velocity to account for platform velocity
             movementType = MovementType.Gravitated;
+            rb.AddForce(Platform.instance.Velocity);
+
         } else {
             movementType = MovementType.ZeroGravity;
         }
@@ -113,38 +123,54 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     private void Move() {
+        Debug.Log("player vel: " + rb.velocity.x);
+
         float regulationFactor = 1f;    // regulates amount of force that's applied. If maxVelocityHorizontal is exceeded, only a minimal force (5%) will be applied.
         float regulationFactorVert = 1f;
 
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
-        if (Mathf.Abs(rb.velocity.x) >= maxVelocityHorizontal || Mathf.Abs(rb.velocity.z) >= maxVelocityHorizontal) {
-            regulationFactor = 0.05f;
-        }
 
 
-
-        if (movementType != MovementType.ZeroGravity) {
-            regulationFactorVert = 0f;
-        } else {
-            if (Mathf.Abs(rb.velocity.y) >= maxVelocityVertical) {
-                regulationFactorVert = 0.05f;
-            }
-            if (!jumpInput && !descendInput) {
+        switch (movementType) {
+            case MovementType.Gravitated:
                 regulationFactorVert = 0f;
-            }
-        }
+
+                /* player won't speed up if he's...
+                 * ... moving faster towards x than the onPlatformMaxVelocityX (which is the general max horizontal velocity + platform x-velocity)
+                 * ... moving faster towards -x than the max on platform velocity in -X-direction (which is Platform.instance.Velocity.x - maxVelocityHorizontal)
+                 * ... moving faster towards z or -z than the onPlatformMaxVelocityZ 
+                */
+                if (rb.velocity.x >= onPlatformMaxVelocityX || rb.velocity.x <= Platform.instance.Velocity.x - maxVelocityHorizontal || Mathf.Abs(rb.velocity.z) >= onPlatformMaxVelocityZ) {
+                    regulationFactor = 0.05f;
+                }
+                break;
+            case MovementType.ZeroGravity:
+                if (Mathf.Abs(rb.velocity.x) >= maxVelocityHorizontal || Mathf.Abs(rb.velocity.z) >= maxVelocityHorizontal) {
+                    regulationFactor = 0.05f;
+                }
+
+                if (Mathf.Abs(rb.velocity.y) >= maxVelocityVertical) {
+                    regulationFactorVert = 0.05f;
+                }
+
+                if (!jumpInput && !descendInput) {
+                    regulationFactorVert = 0f;
+                }
+                break;
+            default:
+                break;
+        }        
 
         Vector3 movementForce = moveDirection.normalized * movementSpeed * movementSpeedMultiplier * regulationFactor;
         movementForce += Vector3.up * verticalMovementSpeed * regulationFactorVert;
 
         //Debug.Log(Vector3.Distance(transform.position, TetherSystem.instance.tetherPoint.position));
 
-        if (Vector3.Distance(transform.position, TetherSystem.instance.tetherPoint.position) < TetherSystem.instance.maxRange) {
+        if (Vector3.Distance(transform.position, Platform.instance.tetherPoint.position) < Platform.instance.maxRange) {
             rb.AddForce(movementForce, ForceMode.Force);
         } else {
-            float platformSpeed = 5f; // placeholder, will be moved to platform logic
-            movementForce = (TetherSystem.instance.tetherPoint.position - transform.position).normalized * platformSpeed;
+            movementForce = (Platform.instance.tetherPoint.position - transform.position).normalized * Platform.instance.Velocity.x;
             rb.AddForce(movementForce, ForceMode.Force);
             Debug.Log("you are tethered to the platform! Applying force: " + movementForce);
         }

@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -13,6 +12,7 @@ public class PlatformMove : MonoBehaviour
 
     public float speed = 5f; // Speed of the platform along the x-axis
     private Rigidbody rb;
+
 
     void Start()
     {
@@ -33,25 +33,26 @@ public class PlatformMove : MonoBehaviour
 
 
     // Platform is a PARENT for : player, item
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Item"))
-        {
+    //void OnCollisionEnter(Collision collision)
+    //{
+    //    if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Item"))
+    //    {
 
-            collision.gameObject.transform.parent = transform;
-            print("Enter - Player tagged object is now a child of: " + transform.name);
-        }
-    }
+    //        collision.gameObject.transform.parent = transform;
+    //        //print("Enter - Player tagged object is now a child of: " + transform.name);
+    //    }
+    //}
 
-    void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Item"))
-        {
+    //void OnCollisionExit(Collision collision)
+    //{
+    //    if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Item"))
+    //    {
 
-            collision.gameObject.transform.parent = null;
-            print("Exit - Player tagged object is not a child of: " + transform.name + " anymore.");
-        }
-    }
+    //        collision.gameObject.transform.parent = null;
+
+    //        //print("Exit - Player tagged object is not a child of: " + transform.name + " anymore.");
+    //    }
+    //}
 
 
 
