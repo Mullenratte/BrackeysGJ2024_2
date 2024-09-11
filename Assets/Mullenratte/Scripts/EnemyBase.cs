@@ -54,6 +54,7 @@ public class EnemyBase : MonoBehaviour
     }
 
     private void Start() {
+        roamingPoint = Platform.instance.transform;
         state = BehaviourState.Roaming;
         healthSystem.OnDeath += HealthSystem_OnDeath;
         healthSystem.OnDamaged += HealthSystem_OnDamaged;
@@ -65,6 +66,8 @@ public class EnemyBase : MonoBehaviour
         switch (state) {
             case BehaviourState.Roaming:
                 //Debug.Log("state - [ROAMING]");
+                roamingPoint = Platform.instance.transform;
+
                 roamTimer += Time.deltaTime;
                 if (roamTimer > maxRoamDuration) {
                     state = BehaviourState.Attacking;
@@ -132,9 +135,6 @@ public class EnemyBase : MonoBehaviour
     }
 
     private void OnCollisionEnter(Collision collision) {
-        Debug.Log(collision.gameObject);
-
-
         if (collision.collider.TryGetComponent<PlayerMovement>(out _) && collision.collider.TryGetComponent(out HealthSystem playerHealthSystem)) {
             Debug.Log("hit player");
             playerHealthSystem.Damage(damage);

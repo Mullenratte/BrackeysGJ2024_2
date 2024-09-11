@@ -123,7 +123,6 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     private void Move() {
-        Debug.Log("player vel: " + rb.velocity.x);
 
         float regulationFactor = 1f;    // regulates amount of force that's applied. If maxVelocityHorizontal is exceeded, only a minimal force (5%) will be applied.
         float regulationFactorVert = 1f;
