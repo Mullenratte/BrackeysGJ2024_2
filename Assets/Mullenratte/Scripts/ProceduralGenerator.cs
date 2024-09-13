@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ProceduralGenerator : MonoBehaviour
@@ -17,7 +19,7 @@ public class ProceduralGenerator : MonoBehaviour
     [SerializeField] GameObject[] environmentPrefabs;
     [SerializeField] int minEnvironmentObjects;
     [SerializeField] int maxEnvironmentObjects;
-    [SerializeField] float minDistanceToObjects;
+    [SerializeField] float minObjDistance;
     private List<GameObject> environmentObjPool;
     [SerializeField, Range(1f, 5f)] float maxRandomScaleFactor;
     [Header("Enemies")]
@@ -26,6 +28,8 @@ public class ProceduralGenerator : MonoBehaviour
     [SerializeField] Transform enemySpawnerRight;
     [Header("Resources")]
     [SerializeField] GameObject[] resourcePrefabs;
+    [SerializeField] int minResourceObjects;
+    [SerializeField] int maxResourceObjects;
 
     public event EventHandler<OnGenerationPointShiftedEventArgs> OnGenerationPointShifted;
 
@@ -61,11 +65,15 @@ public class ProceduralGenerator : MonoBehaviour
     }
 
     private void GenerateNewSection(float spawnPosXOffset) {
-        int rnd = UnityEngine.Random.Range(minEnvironmentObjects, maxEnvironmentObjects + 1);
-        for (int i = 0; i < rnd; i++) {
+        int envRnd = UnityEngine.Random.Range(minEnvironmentObjects, maxEnvironmentObjects + 1);
+        for (int i = 0; i < envRnd; i++) {
             GenerateEnvironment(spawnPosXOffset);
         }
 
+        int resRnd = UnityEngine.Random.Range(minResourceObjects, maxResourceObjects + 1);
+        for (int i = 0; i < envRnd; i++) {
+            GenerateResources(spawnPosXOffset);
+        }
     }
 
     private void GenerateEnvironment(float spawnPosXOffset) {
@@ -87,7 +95,7 @@ public class ProceduralGenerator : MonoBehaviour
         }
         Vector3 spawnPosRnd = unitSpherePosRnd + Platform.instance.procGenTriggerPoint.position + Vector3.right * spawnPosXOffset + Vector3.forward * spawnPosZOffset;   
 
-        if (Physics.SphereCast(spawnPosRnd, minDistanceToObjects, Vector3.zero, out RaycastHit hit)) {
+        if (Physics.SphereCast(spawnPosRnd, minObjDistance, Vector3.zero, out RaycastHit hit)) {
             Debug.Log("there's already an object too close to " + spawnPosRnd);
             return; // placeholder
         }
@@ -102,6 +110,28 @@ public class ProceduralGenerator : MonoBehaviour
         prefab.transform.localScale *= scaleRnd;
 
 
+    }
+
+    private void GenerateResources(float spawnPosXOffset) {
+        int prefabRnd = UnityEngine.Random.Range(0, resourcePrefabs.Length);
+
+        float maxSpawnDistToTetherPoint = Vector3.Distance(Platform.instance.tetherPoint.position, PlayerMovement.instance.transform.position);
+        float distanceOffsetRnd = UnityEngine.Random.Range(minSpawnRadius, maxSpawnDistToTetherPoint);
+
+        Vector3 unitSpherePosRnd = UnityEngine.Random.onUnitSphere * distanceOffsetRnd;
+
+        Vector3 spawnPosRnd = unitSpherePosRnd + Platform.instance.procGenTriggerPoint.position + Vector3.right * spawnPosXOffset;
+
+        if (Physics.SphereCast(spawnPosRnd, minObjDistance, Vector3.zero, out RaycastHit hit)) {
+            Debug.Log("there's already an object too close to " + spawnPosRnd);
+            return; 
+        }
+
+        float xRotRnd = UnityEngine.Random.Range(0, 360);
+        float yRotRnd = UnityEngine.Random.Range(0, 360);
+        float zRotRnd = UnityEngine.Random.Range(0, 360);
+
+        GameObject prefab = Instantiate(resourcePrefabs[prefabRnd], spawnPosRnd, Quaternion.Euler(xRotRnd, yRotRnd, zRotRnd));
     }
 
 }

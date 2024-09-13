@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class PlayerCam : MonoBehaviour
 {
+    public static PlayerCam instance;
+
     public float sensX;
     public float sensY;
 
@@ -14,7 +16,15 @@ public class PlayerCam : MonoBehaviour
     float xRotation;
 
     private bool canMoveCamera = true;
-    
+
+    private void Awake() {
+        if (instance == null) {
+            instance = this;
+        } else {
+            Destroy(gameObject);
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
