@@ -16,11 +16,15 @@ public class ProceduralGenerator : MonoBehaviour
     private float generationPointDistanceX = 250f;
 
     [Header("Environment")]
+    [SerializeField] Transform envObjParentContainer;
+    [SerializeField] Transform resObjParentContainer;
     [SerializeField] GameObject[] environmentPrefabs;
     [SerializeField] int minEnvironmentObjects;
     [SerializeField] int maxEnvironmentObjects;
     [SerializeField] float minObjDistance;
-    private List<GameObject> environmentObjPool;
+    [HideInInspector] public List<GameObject> environmentObjPool;
+    public float envObjDespawnDistance;
+    const int ENVOBJPOOL_MAXSIZE = 120;
     [SerializeField, Range(1f, 5f)] float maxRandomScaleFactor;
     [Header("Enemies")]
     //[SerializeField] GameObject[] enemyPrefabs;
@@ -46,11 +50,14 @@ public class ProceduralGenerator : MonoBehaviour
     }
 
     private void Start() {
+        GenerateEnvironmentObjectPool(ENVOBJPOOL_MAXSIZE);
         GenerateNewSection(-3*maxSpawnRadius);
         GenerateNewSection(-2*maxSpawnRadius);
         GenerateNewSection(-maxSpawnRadius);
         GenerateNewSection(0);
         environmentObjPool = new List<GameObject>();
+
+
     }
 
 
@@ -63,53 +70,89 @@ public class ProceduralGenerator : MonoBehaviour
             OnGenerationPointShifted?.Invoke(this, new OnGenerationPointShiftedEventArgs { oldPos = oldPos, newPos = newPos});
         }
     }
+    private void GenerateEnvironmentObjectPool(int amount) {
+        for (int i = 0; i < amount; i++) {
+            int prefabRnd = UnityEngine.Random.Range(0, environmentPrefabs.Length);
 
-    private void GenerateNewSection(float spawnPosXOffset) {
-        int envRnd = UnityEngine.Random.Range(minEnvironmentObjects, maxEnvironmentObjects + 1);
-        for (int i = 0; i < envRnd; i++) {
-            GenerateEnvironment(spawnPosXOffset);
+            GameObject prefab = Instantiate(environmentPrefabs[prefabRnd], Vector3.zero, Quaternion.identity);
+
+            prefab.SetActive(false);
+
+            environmentObjPool.Add(prefab);
+            prefab.transform.SetParent(envObjParentContainer);
         }
 
+    }
+
+    private void GenerateNewSection(float spawnPosXOffset) {
+        GenerateEnvironment(spawnPosXOffset);
+
         int resRnd = UnityEngine.Random.Range(minResourceObjects, maxResourceObjects + 1);
-        for (int i = 0; i < envRnd; i++) {
+        for (int i = 0; i < resRnd; i++) {
             GenerateResources(spawnPosXOffset);
         }
     }
 
     private void GenerateEnvironment(float spawnPosXOffset) {
-        int prefabRnd = UnityEngine.Random.Range(0, environmentPrefabs.Length);
+        int envRnd = UnityEngine.Random.Range(minEnvironmentObjects, maxEnvironmentObjects + 1);
+        for (int i = 0; i < envRnd; i++) {
 
-        float distanceOffsetRnd = UnityEngine.Random.Range(minSpawnRadius, maxSpawnRadius);
-        /* get a random position on a sphere around the platform center
-         * within a random radius between the min and max allowed spawn radius.
-         * Then, it is also offset on the X-axis by the maximum spawn radius (because there's no real need to spawn objects behind the platform)
-         * and on the Z-axis by 10f (currently a magic number; just a good enough distance from the platform to either side),
-         * so there won't be any objects spawning in the platforms path
-        */
-        float spawnPosZOffset = 10f;
-        Vector3 unitSpherePosRnd = UnityEngine.Random.onUnitSphere * distanceOffsetRnd;
-        if (unitSpherePosRnd.z < 0) {
-            spawnPosZOffset = -MathF.Abs(spawnPosZOffset);
-        } else {
-            spawnPosZOffset = MathF.Abs(spawnPosZOffset);
-        }
-        Vector3 spawnPosRnd = unitSpherePosRnd + Platform.instance.procGenTriggerPoint.position + Vector3.right * spawnPosXOffset + Vector3.forward * spawnPosZOffset;   
+            float distanceOffsetRnd = UnityEngine.Random.Range(minSpawnRadius, maxSpawnRadius);
+            /* get a random position on a sphere around the platform center
+             * within a random radius between the min and max allowed spawn radius.
+             * Then, it is also offset on the X-axis by the maximum spawn radius (because there's no real need to spawn objects behind the platform)
+             * and on the Z-axis by 10f (currently a magic number; just a good enough distance from the platform to either side),
+             * so there won't be any objects spawning in the platforms path
+            */
+            float spawnPosZOffset = 10f;
+            Vector3 unitSpherePosRnd = UnityEngine.Random.onUnitSphere * distanceOffsetRnd;
+            if (unitSpherePosRnd.z < 0) {
+                spawnPosZOffset = -MathF.Abs(spawnPosZOffset);
+            } else {
+                spawnPosZOffset = MathF.Abs(spawnPosZOffset);
+            }
+            Vector3 spawnPosRnd = unitSpherePosRnd + Platform.instance.procGenTriggerPoint.position + Vector3.right * spawnPosXOffset + Vector3.forward * spawnPosZOffset;
 
-        if (Physics.SphereCast(spawnPosRnd, minObjDistance, Vector3.zero, out RaycastHit hit)) {
-            Debug.Log("there's already an object too close to " + spawnPosRnd);
-            return; // placeholder
+            if (Physics.SphereCast(spawnPosRnd, minObjDistance, Vector3.zero, out RaycastHit hit)) {
+                Debug.Log("there's already an object too close to " + spawnPosRnd);
+                return; // placeholder
+            }
+
+            GameObject spawnedObj = GetRandomObjFromPool(environmentObjPool);
+
+            PlaceObjAtPosWithRandomRotScale(spawnedObj, spawnPosRnd);            
         }
+    }
+
+
+
+    private void PlaceObjAtPosWithRandomRotScale(GameObject obj, Vector3 position) {
+        if (obj == null) return;
 
         float xRotRnd = UnityEngine.Random.Range(0, 360);
         float yRotRnd = UnityEngine.Random.Range(0, 360);
         float zRotRnd = UnityEngine.Random.Range(0, 360);
-
-        GameObject prefab = Instantiate(environmentPrefabs[prefabRnd], spawnPosRnd, Quaternion.Euler(xRotRnd, yRotRnd, zRotRnd));
+        obj.transform.rotation = Quaternion.Euler(xRotRnd, yRotRnd, zRotRnd);
 
         float scaleRnd = UnityEngine.Random.Range(1f, maxRandomScaleFactor);
-        prefab.transform.localScale *= scaleRnd;
+        obj.transform.localScale *= scaleRnd;
 
+        obj.transform.position = position;
 
+        obj.SetActive(true);
+    }
+
+    private GameObject GetRandomObjFromPool(List<GameObject> pool) {
+        if (pool.Count == 0) return null;
+        int rnd = UnityEngine.Random.Range(0, pool.Count);
+        GameObject obj = pool[rnd];
+        pool.Remove(obj);
+        return obj;
+    }
+
+    public void DespawnObjAndAddToPool(GameObject obj, List<GameObject> pool) {
+        pool.Add(obj);
+        obj.SetActive(false);
     }
 
     private void GenerateResources(float spawnPosXOffset) {
@@ -132,6 +175,9 @@ public class ProceduralGenerator : MonoBehaviour
         float zRotRnd = UnityEngine.Random.Range(0, 360);
 
         GameObject prefab = Instantiate(resourcePrefabs[prefabRnd], spawnPosRnd, Quaternion.Euler(xRotRnd, yRotRnd, zRotRnd));
+
+        prefab.transform.SetParent(resObjParentContainer);
+
     }
 
 }
