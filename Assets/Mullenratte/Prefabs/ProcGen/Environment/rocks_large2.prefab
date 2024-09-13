@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2902834101627749182}
   - component: {fileID: 8469518080423625250}
   - component: {fileID: 8485019477903267255}
-  - component: {fileID: -2771755504719985523}
+  - component: {fileID: 3088956557196459236}
   m_Layer: 0
   m_Name: rocks_large2
   m_TagString: Untagged
@@ -84,7 +84,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &-2771755504719985523
+--- !u!64 &3088956557196459236
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -105,4 +105,4 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 4835117452620996859, guid: 880bfde5a7f000f4bb61f268c6688eb7, type: 3}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
