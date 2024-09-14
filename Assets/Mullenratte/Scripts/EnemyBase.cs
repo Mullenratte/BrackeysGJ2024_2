@@ -59,8 +59,6 @@ public class EnemyBase : MonoBehaviour
     }
 
     private void Start() {
-        text.text = "";
-
         roamingPoint = Platform.instance.transform;
         state = BehaviourState.Roaming;
         healthSystem.OnDeath += HealthSystem_OnDeath;

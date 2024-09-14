@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class PlayerGun : MonoBehaviour
 {
+    public LayerMask platformLayer;
+
     [SerializeField] float fireCooldown;
     float shootTimer;
     [SerializeField] float gunRange;
@@ -33,7 +35,7 @@ public class PlayerGun : MonoBehaviour
         if (shootTimer < 0) {
             OnShoot?.Invoke();
             shootTimer = fireCooldown;
-            if (Physics.Raycast(playerCamera.position, playerCamera.forward, out RaycastHit hit, gunRange)) {
+            if (Physics.Raycast(playerCamera.position, playerCamera.forward, out RaycastHit hit, gunRange, ~platformLayer)) {
                 if(hit.collider.gameObject.TryGetComponent(out IShootable shotObject)) {
                     Debug.Log("dealt " + gunDamage + " damage to " + shotObject);
                     shotObject.Damage(gunDamage);
@@ -42,5 +44,13 @@ public class PlayerGun : MonoBehaviour
             }
 
         }
+    }
+
+    public void ChangeGunDamage(int amount) {
+        gunDamage += amount;
+    }
+
+    public int GetGunDamage() {
+        return gunDamage;
     }
 }

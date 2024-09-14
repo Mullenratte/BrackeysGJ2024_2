@@ -190,4 +190,11 @@ public class PlayerMovement : MonoBehaviour {
         rb.AddForce(Vector3.down * gravity, ForceMode.Force);
     }
 
+    public void ChangeMaxVelocity(float amount) {
+        maxVelocityHorizontal += amount;
+        maxVelocityVertical += amount;
+        onPlatformMaxVelocityX += amount;
+        onPlatformMaxVelocityZ += amount;
+    }
+
 }

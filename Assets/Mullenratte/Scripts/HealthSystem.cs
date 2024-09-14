@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class HealthSystem : MonoBehaviour, IShootable
 {
+    public bool showDamagePopup;
+
+    [SerializeField] GameObject damageText;
     [SerializeField] private int health = 5;
     private int healthMax;
 
@@ -21,6 +24,11 @@ public class HealthSystem : MonoBehaviour, IShootable
         health -= damageAmount;
 
         OnDamaged?.Invoke(this, new OnDamagedEventArgs { damageAmount = damageAmount});
+
+        if (showDamagePopup) {
+            DamageIndicator indicator = Instantiate(damageText, transform.position, Quaternion.identity).GetComponent<DamageIndicator>();
+            indicator.SetDamageText(damageAmount);
+        }
 
         if (health <= 0) {
             health = 0;
@@ -54,5 +62,10 @@ public class HealthSystem : MonoBehaviour, IShootable
 
     public int GetHealthMax() {
         return healthMax;
+    }
+
+    public void ChangeHealthMax(int amount) {
+        healthMax += amount;
+        health += amount;
     }
 }

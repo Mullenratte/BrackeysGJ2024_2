@@ -148,6 +148,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bea3d08175ab55b4789e76e6b079591e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  showDamagePopup: 1
+  damageText: {fileID: 4019647667936067912, guid: 13bd0dc937bbcca45a5210e09ec9e25c,
+    type: 3}
   health: 50
 --- !u!114 &4474395080044181054
 MonoBehaviour:
@@ -161,7 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33bf7e16a18a90947a806e0df13f0eaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: {fileID: 4097329950993650921}
+  text: {fileID: 0}
   healthSystem: {fileID: 8625189309459669066}
   damage: 10
   movementSpeed: 4.65
@@ -193,6 +196,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6021561771000458749}
     m_Modifications:
+    - target: {fileID: 272222528402619043, guid: aca70f68d9268fa4e8604759ca8571e0,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 883735631629613879, guid: aca70f68d9268fa4e8604759ca8571e0,
         type: 3}
       propertyPath: m_Layer
@@ -343,24 +351,18 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 8326910520093942957, guid: aca70f68d9268fa4e8604759ca8571e0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 883735631629613879, guid: aca70f68d9268fa4e8604759ca8571e0, type: 3}
+    - {fileID: 8326910520093942957, guid: aca70f68d9268fa4e8604759ca8571e0, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aca70f68d9268fa4e8604759ca8571e0, type: 3}
---- !u!114 &4097329950993650921 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6004866125387780013, guid: aca70f68d9268fa4e8604759ca8571e0,
-    type: 3}
-  m_PrefabInstance: {fileID: 7748779664327859012}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &7395459607328975314 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 948220308393800342, guid: aca70f68d9268fa4e8604759ca8571e0,
