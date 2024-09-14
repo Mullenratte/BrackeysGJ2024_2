@@ -5,12 +5,6 @@ using UnityEngine;
 
 public class ResourceVisual : MonoBehaviour
 {
-    public TextMeshProUGUI text;
-
-    private void Start() {
-        text.text = transform.root.name;
-    }
-
     // Update is called once per frame
     void Update()
     {

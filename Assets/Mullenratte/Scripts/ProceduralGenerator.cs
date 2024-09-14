@@ -34,6 +34,9 @@ public class ProceduralGenerator : MonoBehaviour
     [SerializeField] GameObject[] resourcePrefabs;
     [SerializeField] int minResourceObjects;
     [SerializeField] int maxResourceObjects;
+    [HideInInspector] public List<GameObject> resourceObjPool;
+    const int RESOBJPOOL_MAXSIZE = 80;
+
 
     public event EventHandler<OnGenerationPointShiftedEventArgs> OnGenerationPointShifted;
 
@@ -51,11 +54,13 @@ public class ProceduralGenerator : MonoBehaviour
 
     private void Start() {
         GenerateEnvironmentObjectPool(ENVOBJPOOL_MAXSIZE);
+        GenerateResourceObjectPool(RESOBJPOOL_MAXSIZE);
         GenerateNewSection(-3*maxSpawnRadius);
         GenerateNewSection(-2*maxSpawnRadius);
         GenerateNewSection(-maxSpawnRadius);
         GenerateNewSection(0);
         environmentObjPool = new List<GameObject>();
+        resourceObjPool = new List<GameObject>();
 
 
     }
@@ -80,6 +85,20 @@ public class ProceduralGenerator : MonoBehaviour
 
             environmentObjPool.Add(prefab);
             prefab.transform.SetParent(envObjParentContainer);
+        }
+
+    }
+
+    private void GenerateResourceObjectPool(int amount) {
+        for (int i = 0; i < amount; i++) {
+            int prefabRnd = UnityEngine.Random.Range(0, resourcePrefabs.Length);
+
+            GameObject prefab = Instantiate(resourcePrefabs[prefabRnd], Vector3.zero, Quaternion.identity);
+
+            prefab.SetActive(false);
+
+            resourceObjPool.Add(prefab);
+            prefab.transform.SetParent(resObjParentContainer);
         }
 
     }

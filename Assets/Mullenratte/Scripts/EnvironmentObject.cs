@@ -7,7 +7,7 @@ public class EnvironmentObject : MonoBehaviour
 
 
     private void Update() {
-        if (Mathf.Abs(transform.position.x - Platform.instance.transform.position.x) > ProceduralGenerator.instance.envObjDespawnDistance) {
+        if (transform.position.x < Platform.instance.objPoolTriggerPoint.position.x) {
             ProceduralGenerator.instance.DespawnObjAndAddToPool(this.gameObject, ProceduralGenerator.instance.environmentObjPool);
             Debug.Log("despawned " + this.name);
         }

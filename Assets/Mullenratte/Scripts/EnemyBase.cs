@@ -40,6 +40,11 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] float fleeMovementSpeedMultiplier;
     float fleeTimer = 0f;
 
+    [Header("Drops")]
+    [SerializeField] ResourceBase[] droppableResources;
+    [SerializeField] int minDroppedResources;
+    [SerializeField] int maxDroppedResources;
+
 
     public enum BehaviourState {
         Roaming,
@@ -54,6 +59,8 @@ public class EnemyBase : MonoBehaviour
     }
 
     private void Start() {
+        text.text = "";
+
         roamingPoint = Platform.instance.transform;
         state = BehaviourState.Roaming;
         healthSystem.OnDeath += HealthSystem_OnDeath;
@@ -131,6 +138,15 @@ public class EnemyBase : MonoBehaviour
     }
 
     private void HealthSystem_OnDeath(object sender, System.EventArgs e) {
+        int dropAmount = Random.Range(minDroppedResources, maxDroppedResources + 1);
+        for (int i = 0; i < dropAmount; i++) {
+            int rnd = UnityEngine.Random.Range(0, droppableResources.Length);
+
+            Vector3 dropSpawnPos = Random.onUnitSphere;
+
+            Instantiate(droppableResources[rnd], transform.position + dropSpawnPos, Quaternion.identity);
+        }
+
         Destroy(gameObject);    // subject to change
     }
 
@@ -142,7 +158,7 @@ public class EnemyBase : MonoBehaviour
     }
 
     private void RoamPlatform() {
-        text.text = state.ToString();
+        //text.text = state.ToString();
 
         float regulationFactor = 1f;
         Vector3 roamDirection = roamingPoint.root.GetComponent<Rigidbody>().velocity.normalized;
@@ -166,7 +182,7 @@ public class EnemyBase : MonoBehaviour
     }
 
     private void AttackTarget(GameObject target) {
-        text.text = isCharging ? text.text = "Attacking - Charging" : state.ToString();
+        //text.text = isCharging ? text.text = "Attacking - Charging" : state.ToString();
 
         Vector3 attackDirection = (target.transform.position - transform.position).normalized;
         
@@ -201,7 +217,7 @@ public class EnemyBase : MonoBehaviour
 
 
     private void FleePlayer() {
-        text.text = state.ToString();
+        //text.text = state.ToString();
 
         float regulationFactor = 1f;
 
