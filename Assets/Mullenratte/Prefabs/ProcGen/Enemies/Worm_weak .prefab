@@ -1301,7 +1301,7 @@ MonoBehaviour:
   roamingPoint: {fileID: 0}
   maxRoamDuration: 15
   maxRoamDistance: 50
-  minRoamDistance: 4
+  minRoamDistance: 10
   minAttackRange: 13
   attackBuildupTime: 2.2
   attackCooldown: 10

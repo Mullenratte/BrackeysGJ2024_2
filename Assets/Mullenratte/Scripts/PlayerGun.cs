@@ -34,6 +34,8 @@ public class PlayerGun : MonoBehaviour
     private void TryShoot() {
         if (shootTimer < 0) {
             OnShoot?.Invoke();
+            int soundRnd = UnityEngine.Random.Range(1, 5);
+            FindObjectOfType<SoundManager>().PlaySound("shoot" + soundRnd);
             shootTimer = fireCooldown;
             if (Physics.Raycast(playerCamera.position, playerCamera.forward, out RaycastHit hit, gunRange, ~platformLayer)) {
                 if(hit.collider.gameObject.TryGetComponent(out IShootable shotObject)) {
