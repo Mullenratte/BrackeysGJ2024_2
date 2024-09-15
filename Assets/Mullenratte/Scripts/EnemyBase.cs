@@ -149,9 +149,8 @@ public class EnemyBase : MonoBehaviour
     }
 
     private void OnCollisionEnter(Collision collision) {
-        if (collision.collider.TryGetComponent<PlayerMovement>(out _) && collision.collider.TryGetComponent(out HealthSystem playerHealthSystem)) {
-            Debug.Log("hit player");
-            playerHealthSystem.Damage(damage);
+        if (collision.collider.TryGetComponent<HealthSystem>(out HealthSystem healthSystem) && collision.gameObject.layer != this.gameObject.layer) {
+            healthSystem.Damage(damage);
         }
     }
 
