@@ -96,7 +96,7 @@ PrefabInstance:
     - target: {fileID: 7724328895881891264, guid: a52e600f13abedb418e73b032a5284f2,
         type: 3}
       propertyPath: maxRoamDistance
-      value: 45
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 7724328895881891264, guid: a52e600f13abedb418e73b032a5284f2,
         type: 3}
@@ -106,7 +106,7 @@ PrefabInstance:
     - target: {fileID: 7724328895881891264, guid: a52e600f13abedb418e73b032a5284f2,
         type: 3}
       propertyPath: minRoamDistance
-      value: 12
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7724328895881891264, guid: a52e600f13abedb418e73b032a5284f2,
         type: 3}
