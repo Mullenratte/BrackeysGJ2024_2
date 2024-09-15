@@ -22,7 +22,6 @@ public class PlayerGunVisual : MonoBehaviour
     }
 
     private void Gun_OnHit(object sender, PlayerGun.OnHitEventArgs e) {
-        Debug.Log("hit particle sys");
 
         OnHitPartSys.Play();
         TrailRenderer trail = Instantiate(bulletTrail, bulletSpawnPoint.position, Quaternion.identity);
@@ -31,7 +30,6 @@ public class PlayerGunVisual : MonoBehaviour
     }
 
     private void Gun_OnShoot() {
-        Debug.Log("shot gun part sys");
         OnShootPartSys.Play();
     }
 

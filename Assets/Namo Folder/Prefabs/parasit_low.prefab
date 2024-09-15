@@ -813,6 +813,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bea3d08175ab55b4789e76e6b079591e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  showDamagePopup: 1
+  damageText: {fileID: 4019647667936067912, guid: 13bd0dc937bbcca45a5210e09ec9e25c,
+    type: 3}
   health: 50
 --- !u!114 &3696222279015771651
 MonoBehaviour:
@@ -826,7 +829,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33bf7e16a18a90947a806e0df13f0eaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: {fileID: 8131291642951719360}
+  text: {fileID: 0}
   healthSystem: {fileID: 6417034800310807298}
   damage: 10
   movementSpeed: 4.65
@@ -1070,6 +1073,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1127328654004934756}
     m_Modifications:
+    - target: {fileID: 272222528402619043, guid: aca70f68d9268fa4e8604759ca8571e0,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 272222528402619043, guid: aca70f68d9268fa4e8604759ca8571e0,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 272222528402619043, guid: aca70f68d9268fa4e8604759ca8571e0,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 883735631629613879, guid: aca70f68d9268fa4e8604759ca8571e0,
         type: 3}
       propertyPath: m_Layer
@@ -1238,6 +1256,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 883735631629613879, guid: aca70f68d9268fa4e8604759ca8571e0, type: 3}
+    - {fileID: 8326910520093942957, guid: aca70f68d9268fa4e8604759ca8571e0, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aca70f68d9268fa4e8604759ca8571e0, type: 3}
@@ -1247,15 +1266,3 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 2561905282653263469}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8131291642951719360 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6004866125387780013, guid: aca70f68d9268fa4e8604759ca8571e0,
-    type: 3}
-  m_PrefabInstance: {fileID: 2561905282653263469}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

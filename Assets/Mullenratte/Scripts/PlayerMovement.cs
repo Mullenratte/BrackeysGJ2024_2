@@ -171,7 +171,6 @@ public class PlayerMovement : MonoBehaviour {
         } else {
             movementForce = (Platform.instance.tetherPoint.position - transform.position).normalized * Platform.instance.Velocity.x;
             rb.AddForce(movementForce, ForceMode.Force);
-            Debug.Log("you are tethered to the platform! Applying force: " + movementForce);
         }
 
     }

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 330873376186487284}
   - component: {fileID: 5847326755272636971}
   - component: {fileID: -6681752011188784644}
-  - component: {fileID: -5461459471996313455}
+  - component: {fileID: 1933832618687146144}
   m_Layer: 0
   m_Name: Resource_PlayerHP
   m_TagString: Untagged
@@ -133,8 +133,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d7119252ad9b744da25805ca2f164a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!135 &-5461459471996313455
-SphereCollider:
+--- !u!136 &1933832618687146144
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -151,6 +151,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.02592006
-  m_Center: {x: -0.0055656256, y: 0.02346941, z: 0.013663684}
+  serializedVersion: 2
+  m_Radius: 0.12
+  m_Height: 0.6
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.3, z: 0}

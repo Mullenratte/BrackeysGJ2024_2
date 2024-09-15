@@ -52,7 +52,7 @@ public class EnemyBase : MonoBehaviour
         Fleeing
     }
 
-    private BehaviourState state;
+    [SerializeField] private BehaviourState state;
 
     private void Awake() {
         rb = GetComponent<Rigidbody>();
@@ -156,12 +156,11 @@ public class EnemyBase : MonoBehaviour
 
     private void RoamPlatform() {
         //text.text = state.ToString();
-
+        transform.LookAt(roamingPoint);
         float regulationFactor = 1f;
         Vector3 roamDirection = roamingPoint.root.GetComponent<Rigidbody>().velocity.normalized;
 
         if (Vector3.Distance(transform.position, roamingPoint.position) > maxRoamDistance) {
-            transform.LookAt(roamingPoint);
             roamDirection = (roamingPoint.position - transform.position).normalized;
         }
 
@@ -179,6 +178,8 @@ public class EnemyBase : MonoBehaviour
     }
 
     private void AttackTarget(GameObject target) {
+        transform.LookAt(target.transform);
+
         //text.text = isCharging ? text.text = "Attacking - Charging" : state.ToString();
 
         Vector3 attackDirection = (target.transform.position - transform.position).normalized;
@@ -215,6 +216,7 @@ public class EnemyBase : MonoBehaviour
 
     private void FleePlayer() {
         //text.text = state.ToString();
+        transform.LookAt((transform.position - PlayerMovement.instance.transform.position).normalized);
 
         float regulationFactor = 1f;
 

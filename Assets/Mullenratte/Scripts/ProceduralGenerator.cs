@@ -13,7 +13,7 @@ public class ProceduralGenerator : MonoBehaviour
     public float minSpawnRadius;
     public float maxSpawnRadius;
     public Transform generationPoint;
-    private float generationPointDistanceX = 250f;
+    private float generationPointDistanceX = 100f;
 
     [Header("Environment")]
     [SerializeField] Transform envObjParentContainer;
@@ -24,7 +24,7 @@ public class ProceduralGenerator : MonoBehaviour
     [SerializeField] float minObjDistance;
     [HideInInspector] public List<GameObject> environmentObjPool;
     public float envObjDespawnDistance;
-    const int ENVOBJPOOL_MAXSIZE = 120;
+    const int ENVOBJPOOL_MAXSIZE = 1000;
     [SerializeField, Range(1f, 5f)] float maxRandomScaleFactor;
     [Header("Enemies")]
     //[SerializeField] GameObject[] enemyPrefabs;
@@ -36,7 +36,10 @@ public class ProceduralGenerator : MonoBehaviour
     [SerializeField] int maxResourceObjects;
     [HideInInspector] public List<GameObject> resourceObjPool;
     const int RESOBJPOOL_MAXSIZE = 80;
-
+    [Header("Storm")]
+    public Transform stormPoint;
+    [SerializeField] GameObject wormBossPrefab;
+    private bool bossAreaSpawned;
 
     public event EventHandler<OnGenerationPointShiftedEventArgs> OnGenerationPointShifted;
 
@@ -53,22 +56,38 @@ public class ProceduralGenerator : MonoBehaviour
     }
 
     private void Start() {
+        environmentObjPool = new List<GameObject>();
+        resourceObjPool = new List<GameObject>();
+
         GenerateEnvironmentObjectPool(ENVOBJPOOL_MAXSIZE);
         GenerateResourceObjectPool(RESOBJPOOL_MAXSIZE);
         GenerateNewSection(-3*maxSpawnRadius);
         GenerateNewSection(-2*maxSpawnRadius);
         GenerateNewSection(-maxSpawnRadius);
         GenerateNewSection(0);
-        environmentObjPool = new List<GameObject>();
-        resourceObjPool = new List<GameObject>();
 
+        Debug.Log("generated level, object pool size: " + environmentObjPool.Count);
 
     }
 
 
     private void Update() {
+        if (!bossAreaSpawned && generationPoint.position.x >= stormPoint.position.x)
+        {
+            bossAreaSpawned = true;
+            minEnvironmentObjects *= 4;
+            maxEnvironmentObjects *= 5;
+            maxRandomScaleFactor = 6f;
+            enemySpawnerLeft.gameObject.SetActive(false);
+            enemySpawnerRight.gameObject.SetActive(false);
+            GenerateEnvironment(0);
+
+            Instantiate(wormBossPrefab, stormPoint.position, Quaternion.identity);
+            return;
+        }
         if (Platform.instance.procGenTriggerPoint.position.x >= generationPoint.position.x) {
-            GenerateNewSection(maxSpawnRadius);
+            Debug.Log("generate new section with obj pool size: " + environmentObjPool.Count);
+            GenerateNewSection(0);
             Vector3 oldPos = generationPoint.position;
             generationPoint.position += Vector3.right * generationPointDistanceX;
             Vector3 newPos = generationPoint.position;
@@ -124,13 +143,14 @@ public class ProceduralGenerator : MonoBehaviour
              * so there won't be any objects spawning in the platforms path
             */
             float spawnPosZOffset = 10f;
+            if (bossAreaSpawned) spawnPosZOffset = 40f;
             Vector3 unitSpherePosRnd = UnityEngine.Random.onUnitSphere * distanceOffsetRnd;
             if (unitSpherePosRnd.z < 0) {
                 spawnPosZOffset = -MathF.Abs(spawnPosZOffset);
             } else {
                 spawnPosZOffset = MathF.Abs(spawnPosZOffset);
             }
-            Vector3 spawnPosRnd = unitSpherePosRnd + Platform.instance.procGenTriggerPoint.position + Vector3.right * spawnPosXOffset + Vector3.forward * spawnPosZOffset;
+            Vector3 spawnPosRnd = unitSpherePosRnd + generationPoint.position + Vector3.right * spawnPosXOffset + Vector3.forward * spawnPosZOffset;
 
             if (Physics.SphereCast(spawnPosRnd, minObjDistance, Vector3.zero, out RaycastHit hit)) {
                 Debug.Log("there's already an object too close to " + spawnPosRnd);
@@ -172,6 +192,7 @@ public class ProceduralGenerator : MonoBehaviour
     public void DespawnObjAndAddToPool(GameObject obj, List<GameObject> pool) {
         pool.Add(obj);
         obj.SetActive(false);
+        Debug.Log("pool-size: " + environmentObjPool.Count);
     }
 
     private void GenerateResources(float spawnPosXOffset) {

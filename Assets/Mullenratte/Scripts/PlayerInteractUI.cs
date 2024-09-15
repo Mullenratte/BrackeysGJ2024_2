@@ -11,19 +11,16 @@ public class PlayerInteractUI : MonoBehaviour
     void Start()
     {
         PlayerInteractSystem.instance.OnHover += PlayerInteractSystem_OnHover;
+        PlayerInteractSystem.instance.OnNotHover += PlayerInteractSystem_OnNotHover;
+        hoverText.text = "";
+    }
+
+    private void PlayerInteractSystem_OnNotHover(object sender, PlayerInteractSystem.OnInteractEventArgs e) {
+        hoverText.text = "";
     }
 
     private void PlayerInteractSystem_OnHover(object sender, PlayerInteractSystem.OnInteractEventArgs e) {
+        
         hoverText.text = "[E] " + (e.hit.transform.TryGetComponent<ICollectible>(out _) ? "Collect" : "Interact");
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        hoverText.text = "";
-
-        //if (!PlayerInteractSystem.instance.isHoveringObject) {
-        //    hoverText.text = "";
-        //}
     }
 }

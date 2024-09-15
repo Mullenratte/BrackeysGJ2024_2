@@ -10,6 +10,7 @@ public class PlayerInteractSystem : MonoBehaviour
     [SerializeField] float interactRange;
 
     public event EventHandler<OnInteractEventArgs> OnHover;
+    public event EventHandler<OnInteractEventArgs> OnNotHover;
     public event EventHandler OnInteract;
     public event EventHandler OnCollect;
 
@@ -37,7 +38,9 @@ public class PlayerInteractSystem : MonoBehaviour
                         collectObj.CollectBehaviour();
                     }
                 }
-            }
+            } 
+        } else {
+            OnNotHover?.Invoke(this, new OnInteractEventArgs { hit = hit });
         }
     }
 }
